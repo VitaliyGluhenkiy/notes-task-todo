@@ -1,0 +1,10 @@
+.noteItem {
+  border-bottom: 1px solid #6e6161;
+  &:hover {
+    background-color: #e3e2e2;
+  }
+  &.active {
+    background-color: #645e5e;
+  }
+
+}
