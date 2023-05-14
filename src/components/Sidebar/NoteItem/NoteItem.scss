@@ -1,10 +1,21 @@
 .noteItem {
   border-bottom: 1px solid #6e6161;
+  padding: 10px;
   &:hover {
-    background-color: #e3e2e2;
+    background-color: #f5f3f3;
+    cursor: pointer;
   }
   &.active {
-    background-color: #645e5e;
+    background-color: #DEDEDC;
+  }
+  h5 {
+    font-size: 20px;
+  }
+  .dateAndText {
+    display: flex;
+    .date{
+      margin-right: 5px;
+    }
   }
 
 }

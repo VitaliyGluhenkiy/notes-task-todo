@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
 import Dexie from 'dexie'
-import { useLiveQuery } from 'dexie-react-hooks'
 
 import Sidebar from './components/Sidebar/Sidebar'
 import WorkSpace from './components/WorkSpace/WorkSpace'
@@ -21,13 +20,22 @@ function App() {
 	const [allNotes, setAllNotes] = useState([])
 	const [filterValue, setFilterValue] = useState('')
 
-	const [activeItem, setActiveItem] = useState({})
+	const [activeItem, setActiveItem] = useState('')
+
 	const [statusPlusButton, setStatusButton] = useState(false)
 	const [statusEditNote, setStatusEditNote] = useState(false)
 
 	useEffect(() => {
 		notes.toArray().then(setAllNotes)
 	}, [])
+
+	const handleInputChange = event => {
+		const { name, value } = event.target
+		setActiveItem(prevState => ({
+			...prevState,
+			[name]: value
+		}))
+	}
 
 	const changeFilterValue = e => {
 		setFilterValue(e.target.value)
@@ -37,8 +45,8 @@ function App() {
 		return note.title.includes(filterValue)
 	})
 
-	const addNote = async (titleValue, textareaValue) => {
-		await notes
+	const addNote = (titleValue, textareaValue) => {
+		notes
 			.add({
 				title: titleValue,
 				text: textareaValue,
@@ -49,10 +57,10 @@ function App() {
 			})
 	}
 
-	const deleteNote = async id => {
+	const deleteNote = id => {
 		const confirmed = window.confirm('You should delete this note?')
 		if (confirmed) {
-			await notes.delete(id).then(() => {
+			notes.delete(id).then(() => {
 				notes.toArray().then(setAllNotes)
 			})
 			setActiveItem([])
@@ -60,6 +68,9 @@ function App() {
 	}
 
 	const editNote = () => {
+		notes.update(1, activeItem).then(() => {
+			notes.toArray().then(setAllNotes)
+		})
 		setStatusEditNote(!statusEditNote)
 	}
 
@@ -83,7 +94,8 @@ function App() {
 				editNote,
 				activeItem,
 				changeFilterValue,
-				filterValue
+				filterValue,
+				handleInputChange
 			}}
 		>
 			<div className="App">
@@ -94,6 +106,7 @@ function App() {
 						addNote={addNote}
 						editNote={editNote}
 						statusEditNote={statusEditNote}
+						activeItem={activeItem}
 					/>
 				</div>
 			</div>

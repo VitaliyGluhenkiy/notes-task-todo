@@ -4,16 +4,20 @@ import AddNewNote from './AddNewNote/AddNewNote'
 
 import { Context } from '../../App'
 
-const WorkSpace = ({ addNote, statusEditNote }) => {
+import './WorkSpace.scss'
+
+const WorkSpace = ({ addNote, statusEditNote, activeItem }) => {
 	const [titleValue, setTitleValue] = useState('')
 	const [textareaValue, setTextAreaValue] = useState('')
-	const { statusPlusButton, activeItem, togglePlusStatus } = useContext(Context)
 
-	const handleTitleChange = e => {
+	const { statusPlusButton, togglePlusStatus, handleInputChange, editNote } =
+		useContext(Context)
+
+	const handleSetTitle = e => {
 		setTitleValue(e.target.value)
 	}
 
-	const handleTextareaChange = e => {
+	const handleSetText = e => {
 		setTextAreaValue(e.target.value)
 	}
 
@@ -25,23 +29,32 @@ const WorkSpace = ({ addNote, statusEditNote }) => {
 	}
 
 	return (
-		<div>
-			WorkSpace
+		<div className="workSpace">
 			{statusPlusButton ? (
 				<AddNewNote
 					titleValue={titleValue}
 					textareaValue={textareaValue}
-					handleTitleChange={handleTitleChange}
-					handleTextareaChange={handleTextareaChange}
+					handleSetTitle={handleSetTitle}
+					handleSetText={handleSetText}
 					handleAddNote={handleAddNote}
 				/>
 			) : (
 				<div>
 					{statusEditNote ? (
-						<div>
-							<input type="text" value={activeItem.title} />
-							<textarea rows="5" value={activeItem.text}></textarea>
-							<button>Ok</button>
+						<div className="editBlock">
+							<input
+								type="text"
+								name="title"
+								value={activeItem.title}
+								onChange={handleInputChange}
+							/>
+							<textarea
+								rows="5"
+								name="text"
+								value={activeItem.text}
+								onChange={handleInputChange}
+							></textarea>
+							<button onClick={editNote}>Ok</button>
 						</div>
 					) : (
 						<div>

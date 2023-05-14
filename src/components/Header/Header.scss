@@ -1,6 +1,17 @@
 .header {
   display: flex;
   justify-content: space-between;
-  height: 25px;
-  background-color: #cebfbf;
+  align-items: center;
+  height: 35px;
+  background-color: #D6D6D6;
+  button {
+    margin: 5px;
+  }
+  .search {
+    margin: 5px;
+    svg {
+      position: relative;
+      top: 3px;
+    }
+  }
 }
