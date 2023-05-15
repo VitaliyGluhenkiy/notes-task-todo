@@ -10,6 +10,7 @@ const NoteItem = ({ noteItem }) => {
 	const day = dateTime.getDate()
 	const month = dateTime.getMonth()
 	const year = dateTime.getFullYear()
+
 	return (
 		<div
 			className={`noteItem ${noteItem.id === activeItem.id ? 'active' : ''}`}

@@ -1,17 +1,18 @@
 import { useContext, useState } from 'react'
 
 import AddNewNote from './AddNewNote/AddNewNote'
+import SelectedNote from './SelectedNote/SelectedNote'
+import EditNote from './EditNote/EditNote'
 
 import { Context } from '../../App'
 
 import './WorkSpace.scss'
 
-const WorkSpace = ({ addNote, statusEditNote, activeItem }) => {
+const WorkSpace = ({ addNote, statusEditNote }) => {
 	const [titleValue, setTitleValue] = useState('')
 	const [textareaValue, setTextAreaValue] = useState('')
 
-	const { statusPlusButton, togglePlusStatus, handleInputChange, editNote } =
-		useContext(Context)
+	const { statusPlusButton, togglePlusStatus, activeItem } = useContext(Context)
 
 	const handleSetTitle = e => {
 		setTitleValue(e.target.value)
@@ -40,28 +41,7 @@ const WorkSpace = ({ addNote, statusEditNote, activeItem }) => {
 				/>
 			) : (
 				<div>
-					{statusEditNote ? (
-						<div className="editBlock">
-							<input
-								type="text"
-								name="title"
-								value={activeItem.title}
-								onChange={handleInputChange}
-							/>
-							<textarea
-								rows="5"
-								name="text"
-								value={activeItem.text}
-								onChange={handleInputChange}
-							></textarea>
-							<button onClick={editNote}>Ok</button>
-						</div>
-					) : (
-						<div>
-							<h5>{activeItem.title}</h5>
-							<p>{activeItem.text}</p>
-						</div>
-					)}
+					{statusEditNote ? <EditNote /> : activeItem ? <SelectedNote /> : ''}
 				</div>
 			)}
 		</div>
