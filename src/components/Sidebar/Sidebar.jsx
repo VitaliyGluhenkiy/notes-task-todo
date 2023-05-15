@@ -1,15 +1,18 @@
+import { useContext } from 'react'
+
 import NoteItem from './NoteItem/NoteItem'
+import { AppContext } from '../AppProvider'
 
 import './Sidebar.scss'
 
-const Sidebar = ({ filteredItems }) => {
-	return (
-		<div className="sidebar">
-			{filteredItems?.map(noteItem => (
-				<NoteItem noteItem={noteItem} key={noteItem.id} />
-			))}
-		</div>
-	)
-}
+export const Sidebar = () => {
+    const { filteredItems } = useContext(AppContext)
 
-export default Sidebar
+    return (
+        <div className="sidebar">
+            {filteredItems?.map(noteItem => (
+                <NoteItem noteItem={noteItem} key={noteItem.id} />
+            ))}
+        </div>
+    )
+}
