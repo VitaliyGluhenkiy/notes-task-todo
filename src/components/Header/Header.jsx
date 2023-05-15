@@ -11,9 +11,9 @@ const Header = () => {
 		activeItem,
 		deleteNote,
 		togglePlusStatus,
-		editNote,
 		changeFilterValue,
-		filterValue
+		filterValue,
+		editNote
 	} = useContext(Context)
 	return (
 		<div className="header">

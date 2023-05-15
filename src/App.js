@@ -19,9 +19,7 @@ const { notes } = db
 function App() {
 	const [allNotes, setAllNotes] = useState([])
 	const [filterValue, setFilterValue] = useState('')
-
 	const [activeItem, setActiveItem] = useState('')
-
 	const [statusPlusButton, setStatusButton] = useState(false)
 	const [statusEditNote, setStatusEditNote] = useState(false)
 
@@ -55,6 +53,7 @@ function App() {
 			.then(() => {
 				notes.toArray().then(setAllNotes)
 			})
+		setActiveItem('')
 	}
 
 	const deleteNote = id => {
@@ -63,12 +62,12 @@ function App() {
 			notes.delete(id).then(() => {
 				notes.toArray().then(setAllNotes)
 			})
-			setActiveItem([])
+			setActiveItem('')
 		}
 	}
 
 	const editNote = () => {
-		notes.update(1, activeItem).then(() => {
+		notes.update(activeItem.id, activeItem).then(() => {
 			notes.toArray().then(setAllNotes)
 		})
 		setStatusEditNote(!statusEditNote)
@@ -81,7 +80,7 @@ function App() {
 
 	const togglePlusStatus = () => {
 		setStatusButton(!statusPlusButton)
-		setActiveItem([])
+		setActiveItem('')
 	}
 
 	return (
@@ -102,12 +101,7 @@ function App() {
 				<Header />
 				<div className="main">
 					<Sidebar filteredItems={filteredItems} />
-					<WorkSpace
-						addNote={addNote}
-						editNote={editNote}
-						statusEditNote={statusEditNote}
-						activeItem={activeItem}
-					/>
+					<WorkSpace addNote={addNote} statusEditNote={statusEditNote} />
 				</div>
 			</div>
 		</Context.Provider>
